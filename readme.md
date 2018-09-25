@@ -22,6 +22,11 @@ DB_DATABASE=homestead
 DB_USERNAME=homestead
 DB_PASSWORD=secret
 ```
+## Migrasi database
+
+```bash
+php artisan migrate
+```
 
 Jalankan perintah berikut untuk run development server:
 ```bash
