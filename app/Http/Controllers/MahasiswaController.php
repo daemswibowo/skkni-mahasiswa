@@ -26,8 +26,8 @@ class MahasiswaController extends Controller
 
         if (!empty($keyword)) {
             $mahasiswa = Mahasiswa::where('nim', 'LIKE', "%$keyword%")
-                ->orWhere('name', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
+            ->orWhere('name', 'LIKE', "%$keyword%")
+            ->latest()->paginate($perPage);
         } else {
             $mahasiswa = Mahasiswa::latest()->paginate($perPage);
         }
@@ -54,6 +54,10 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            "nim" => "required | unique:mahasiswas",
+            "name" => "required",
+        ]);
         
         $requestData = $request->all();
         
@@ -100,9 +104,13 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $request->validate([
+            "nim" => "required | unique:mahasiswas,nim,$id",
+            "name" => "required",
+        ]);
+
         $requestData = $request->all();
-        
+
         $mahasiswa = Mahasiswa::findOrFail($id);
         $mahasiswa->update($requestData);
 
